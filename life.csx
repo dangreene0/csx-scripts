@@ -154,7 +154,7 @@ WWWWWWWWWWWNNNWNNNNNNNNNNWNNWNWWWWWWWWWW";
             if (vegetation > heat && population < 6 && vegetation < 5){heat--; levelNotes +="The plants were able to cool off your civilization.\n";}
             if (population < 5 && vegetation < 6){heat--; levelNotes +="The low population cooled off under the trees.\n";}
 
-            if (vegetation < 0){ vegetation = 0; levelNotes += "The foolish god has no morsels to spare. The civilization can sustain no life.\n";}
+            if (vegetation < 0){ population--; vegetation = 0; levelNotes += "The foolish god has no morsels to spare. The civilization can sustain no life.\n";}
             if (heat < 3){vegetation--; levelNotes +="Frost begins to form upon the plants, it is a cruel Winter.\n";}
             if (heat < 0){ heat = 0;}
 
@@ -178,7 +178,7 @@ WWWWWWWWWWWNNNWNNNNNNNNNNWNNWNWWWWWWWWWW";
             Console.WriteLine($"Population: {previousPop} --> {population}");
             Console.ReadLine();
             Console.Clear();
-            if (level == 20){victory();}
+            if (level == 30){victory();}
             chooseStat();
         }
         
