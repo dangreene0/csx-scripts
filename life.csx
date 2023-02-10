@@ -146,18 +146,31 @@ WWWWWWWWWWWNNNWNNNNNNNNNNWNNWNWWWWWWWWWW";
             int previousLevel = level, previousHeat = heat, previousVeg = vegetation, previousPop = population;
 
             if (population < 3 ) {levelNotes += "Your population is getting dangerously low, please advise.\n"; }
-            if (heat == 10 ) {levelNotes += "Your civilizations temperatures are dangerously high.\n";}
-            if (heat == 11 ) {deathReason += "The population greatly suffered a heat stroke.\n"; }
+            if (heat > 14){heat = 14; levelNotes += "Never has man known a worse fate then the fires of summer.\n";}
             if (heat > 11){ population--; vegetation++; levelNotes += "The heat has taken the lives of some of your people, but allowed for the plants to grow.\n";}
-            if (vegetation < population) { vegetation--; levelNotes += "Your people are overeating. Lost vegetation.\n";}
-            if (vegetation < 4) {levelNotes += "Your land is low on vegetation, your civilization will suffer.\n"; heat++;}
-            if (vegetation > heat && population < 6){heat--; levelNotes +="The plants were able to cool off your civilization.\n";}
-            if (population < 6 && vegetation > 6){heat--; levelNotes +="The low population cooled off under the trees.\n";}
+            if (heat == 10 ) {levelNotes += "Your civilizations temperatures are dangerously high.\n";}
+            if (vegetation < population && population > 6) { vegetation--; levelNotes += "Your people are overeating. Lost vegetation.\n";}
+            if (vegetation < 4) {heat++; levelNotes += "Your land is low on vegetation, your civilization will suffer.\n"; }
+            if (vegetation > heat && population < 6 && vegetation < 5){heat--; levelNotes +="The plants were able to cool off your civilization.\n";}
+            if (population < 5 && vegetation < 6){heat--; levelNotes +="The low population cooled off under the trees.\n";}
+
+            if (vegetation < 0){ vegetation = 0; levelNotes += "The foolish god has no morsels to spare. The civilization can sustain no life.\n";}
+            if (heat < 3){vegetation--; levelNotes +="Frost begins to form upon the plants, it is a cruel Winter.\n";}
+            if (heat < 0){ heat = 0;}
 
             ++level;   
-            if (level < previousLevel){Console.WriteLine($"Welcome to level {level}");};
-            if (population < 1 ){ deathReason += "Population depleted."; gameOver(deathReason);};
-            if (level == 20){victory();}
+            if (level > previousLevel){Console.WriteLine($"Welcome to level {level}");};
+            if (population < 1 ){
+                deathReason += "Population depleted.\n"; 
+                if (heat < 10) {
+                    deathReason += "Their charred remains smolder under the sun.\n";
+                }
+                if (vegetation < 2) {
+                    deathReason += "Unsustainable vegetation destroyed the food supply.\n";
+                }
+                gameOver(deathReason);
+            }
+            if (levelNotes == ""){levelNotes += "There is peace, but for how long...";}
             Console.WriteLine(levelNotes);
             Console.WriteLine("Stats");
             Console.WriteLine($"Heat: {previousHeat} --> {heat}");
@@ -165,6 +178,7 @@ WWWWWWWWWWWNNNWNNNNNNNNNNWNNWNWWWWWWWWWW";
             Console.WriteLine($"Population: {previousPop} --> {population}");
             Console.ReadLine();
             Console.Clear();
+            if (level == 20){victory();}
             chooseStat();
         }
         
@@ -217,19 +231,21 @@ WWWWWWWWWWWNNNWNNNNNNNNNNWNNWNWWWWWWWWWW";
     }
 
     void gameOver(string deathReason){
+        Console.Clear();
         Console.WriteLine(loser);
         Console.WriteLine(deathReason);
-        Console.WriteLine("You're civilization had a terrible fate.");
-        Console.WriteLine("We would hope they god would be more merciful.");
+        Console.WriteLine($"{civName} has suffered a terrible fate.");
+        Console.WriteLine($"We hoped {godName} would have been more merciful.");
         Console.WriteLine(".... I can still hear their screams.");
         Console.ReadLine();
         exit();
     }
 
     void victory(){
+        Console.Clear();
         Console.WriteLine(winner);
         Console.WriteLine($"Congratulations! {civName} has survived defeat!");
-        Console.WriteLine($"You are a wise god and your people thank you for being merciful.");
+        Console.WriteLine($"${godName} is a wise god and your people thank you for being merciful.");
         Console.ReadLine();
         exit();
     }
