@@ -162,8 +162,8 @@ WWWWWWWWWWWNNNWNNNNNNNNNNWNNWNWWWWWWWWWW";
             if (level > previousLevel){Console.WriteLine($"Welcome to level {level}");};
             if (population < 1 ){
                 deathReason += "Population depleted.\n"; 
-                if (heat < 10) {
-                    deathReason += "Their charred remains smolder under the sun.\n";
+                if (heat < 9) {
+                    deathReason += "Their charred remains, smolder under the sun.\n";
                 }
                 if (vegetation < 2) {
                     deathReason += "Unsustainable vegetation destroyed the food supply.\n";
